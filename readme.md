@@ -1,5 +1,3 @@
-#Projeto base para o curso de blockchain da Alura
-
-Aqui está o código base que vai ser construído durante o curso de blockchain da alura. 
-  	
-
+Executar somente uma vez
+http://localhost:8080/magic/generate/roles
+http://localhost:8080/magic/generate/owner/
