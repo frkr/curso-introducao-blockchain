@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="curso-introducao-blockchain:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="eleicoesonline.war">
+      <element id="artifact" artifact-name="curso-introducao-blockchain:war exploded" />
+    </root>
+  </artifact>
+</component>
