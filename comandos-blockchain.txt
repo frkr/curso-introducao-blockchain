@@ -1,0 +1,67 @@
+docker -H 127.0.0.1:2375 info
+docker -H 192.168.15.9:2375 info
+docker -H 192.168.15.3:2375 info
+
+apt-get install -y git make npm python-tox
+pip install -U tox
+
+git clone http://gerrit.hyperledger.org/r/cello && cd cello && git checkout v0.8.0
+
+#make setup-master && make npm-install && make build-js
+#DEV=True make all
+#DEV=True make restart
+
+DEV=true VERSION=0.8.0 make setup-master && VERSION=0.8.0 DEV=true make start
+
+#echo ADDUSER !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#adduser mongodb -S && echo $? && true
+
+
+DEV=true VERSION=0.8.0 WORKER_TYPE=docker MASTER_NODE=192.168.15.9 make setup-worker
+
+#######################
+Maquina recomendada --- 8c16g100g - 8 proc - 16gb - 100gb hd
+------
+Preparação do linux 14.04
+
+sudo apt-get update
+
+sudo apt-get install -y \
+    linux-image-extra-$(uname -r) \
+    linux-image-extra-virtual
+
+sudo apt-get install -y \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    software-properties-common
+
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+
+sudo apt-key fingerprint 0EBFCD88
+
+sudo add-apt-repository \
+   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+   $(lsb_release -cs) \
+   stable"
+
+sudo apt-get update
+
+apt-cache policy docker-ce
+
+# nao funciona apt-get install docker-ce=1.10~
+
+apt-get install -y docker-ce
+
+# expoe o docker
+docker run -d --restart=unless-stopped -v /var/run/docker.sock:/var/run/docker.sock -p 2375:2375 bobrik/socat TCP-LISTEN:2375,fork UNIX-CONNECT:/var/run/docker.sock
+
+docker -H 127.0.0.1:2375 info
+#docker -H 192.168.15.8:2375 info
+
+sudo curl -L https://github.com/docker/compose/releases/download/1.22.0/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+docker-compose --version
+
+docker -H 127.0.0.1:2375 info
+docker-compose --version
